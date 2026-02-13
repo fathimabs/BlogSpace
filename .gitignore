@@ -1,0 +1,11 @@
+blog-server/node_modules
+blog-server/.env
+
+
+
+blog-client/node_modules
+blog-client/dist
+
+
+blog-client/.env
+
