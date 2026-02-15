@@ -110,6 +110,7 @@ const login = async (req, res) => {
             process.env.JWT_SECRET_KEY,
             { expiresIn: '1h' })
 
+
         res.status(200).json({
             message: "Login Successfull",
             userId: userExist.id,

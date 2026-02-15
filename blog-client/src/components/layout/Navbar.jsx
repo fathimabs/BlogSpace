@@ -30,9 +30,9 @@ function Navbar() {
                             Login
                         </Link>
                         <Link
-                            to="/register"
+                            to="/signup"
                         >
-                        <Button>Register</Button>
+                        <Button>SignUp</Button>
                            
                         </Link>
                     </div>

@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import Button from "../components/common/Button";
 import Input from "../components/common/Input";
+import Button from "../components/common/Button";
 
-function Login() {
+ function Signup() {
   const {
     register,
     handleSubmit,
@@ -13,17 +13,36 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = (data) => {
-    console.log("Form Data:", data);
-    alert("Form submitted successfully!");
+    console.log("Register Data:", data);
+    alert("Account created successfully!");
   };
 
   return (
     <div className="max-w-md mx-auto px-4 py-16">
-      <h1 className="text-3xl text-center mb-8">Login</h1>
+      <h1 className="text-3xl text-center mb-8">Register</h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
-    
+        {/* Name */}
+        <div>
+          <Input
+            placeholder="Name"
+            {...register("name", {
+              required: "Name is required",
+              minLength: {
+                value: 3,
+                message: "Minimum 3 characters",
+              },
+            })}
+          />
+          {errors.name && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.name.message}
+            </p>
+          )}
+        </div>
+
+        {/* Email */}
         <div>
           <Input
             placeholder="Email"
@@ -42,7 +61,7 @@ function Login() {
           )}
         </div>
 
-       
+        {/* Password with Toggle */}
         <div className="relative">
           <Input
             type={showPassword ? "text" : "password"}
@@ -56,6 +75,7 @@ function Login() {
             })}
           />
 
+          {/* Show / Hide Button */}
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
@@ -72,7 +92,7 @@ function Login() {
         </div>
 
         <Button type="submit" className="w-full">
-          Login
+          Create Account
         </Button>
 
       </form>
@@ -80,4 +100,5 @@ function Login() {
   );
 }
 
-export default Login;
+
+export default Signup
