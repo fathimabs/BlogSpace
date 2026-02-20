@@ -2,24 +2,51 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Input from "../components/common/Input";
 import Button from "../components/common/Button";
+import api from "../api/axiosInstance";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
- function Signup() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+
+function Signup() {
+
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const onSubmit = (data) => {
-    console.log("Register Data:", data);
-    alert("Account created successfully!");
+  const navigate = useNavigate();
+
+  const onSubmit = async (data) => {
+
+    try {
+
+      const response = await api.post('/user/adduser', data)
+
+      toast.success("Account Created Successfully", { duration: 3000 })
+
+      reset()
+      navigate('/login')
+
+
+    } catch (error) {
+      if (error.response) {
+
+        if (error.response.status === 409) {
+
+          toast.error("Email is already registered ");
+        } else {
+
+          toast.error(error.response.data.message || "Something went wrong ");
+        }
+      } else {
+        
+        toast.error("Server not responding ");
+      }
+    }
   };
 
   return (
     <div className="max-w-md mx-auto px-4 py-16">
-      <h1 className="text-3xl text-center mb-8">Register</h1>
+      <h1 className="text-3xl text-center mb-8">Sign-up</h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
@@ -27,7 +54,7 @@ import Button from "../components/common/Button";
         <div>
           <Input
             placeholder="Name"
-            {...register("name", {
+            {...register("username", {
               required: "Name is required",
               minLength: {
                 value: 3,
@@ -35,9 +62,9 @@ import Button from "../components/common/Button";
               },
             })}
           />
-          {errors.name && (
+          {errors.username && (
             <p className="text-red-500 text-sm mt-1">
-              {errors.name.message}
+              {errors.username.message}
             </p>
           )}
         </div>

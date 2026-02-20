@@ -2,6 +2,8 @@
 import Navbar from "./components/layout/Navbar"
 import Footer from "./components/layout/Footer"
 import AppRoutes from "./routes/AppRoutes"
+import { Toaster } from "react-hot-toast"
+
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
 
       </div>
       <Footer />
+
+      <Toaster position="top" reverseOrder={false} />
     </>
   )
 }

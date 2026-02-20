@@ -12,6 +12,9 @@ userRoute.get('/alluser', getUsers)
 userRoute.post('/login',login)
 userRoute.put('/profile', tokenValidations, profileUpdate)
 
+
+
+
 module.exports = userRoute
 
 

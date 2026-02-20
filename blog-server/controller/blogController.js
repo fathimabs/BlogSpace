@@ -4,13 +4,13 @@ const Blog = require('../models/blogModel')
 const addBlog = async (req, res) => {
 
     try {
-        let { title, content } = req.body
+        const { title, content } = req.body
 
         if (!title || !content) {
             return res.status(400).json({ message: "All fields required" })
         }
 
-        let blog = new Blog({
+        const blog = new Blog({
             title,
             content,
             author: req.user.id
@@ -31,8 +31,10 @@ const addBlog = async (req, res) => {
 const getBlogs = async (req, res) => {
 
     try {
-        let blogData = await Blog.find()
+        const blogData = await Blog.find()
+
         res.status(200).json(blogData)
+
     } catch (error) {
         res.status(500).json({ message: "Error" })
     }
@@ -41,10 +43,9 @@ const getBlogs = async (req, res) => {
 const getBlogByUser = async (req, res) => {
 
     try {
-        let userId = req.user.id
-        console.log(userId);
+        const userId = req.user.id
 
-        let blogs = await Blog.find({ author: userId })
+        const blogs = await Blog.find({ author: userId })
 
         res.status(200).json({
             count: blogs.length,
@@ -59,14 +60,13 @@ const blogUpdate = async (req, res) => {
 
 
     try {
-        let blogId = req.params.id
-        // console.log(blogId);
+        const blogId = req.params.id
 
-        let userId = req.user.id
-        let { title, content } = req.body
+        const userId = req.user.id
 
-        let blog = await Blog.findById(blogId)
-        // console.log(blog.author);
+        const { title, content } = req.body
+
+        const blog = await Blog.findById(blogId)
 
         if (!blog) {
 
@@ -95,10 +95,11 @@ const blogUpdate = async (req, res) => {
 const blogDelete = async (req, res) => {
 
     try {
-        let blogId = req.params.id
-        let userId = req.user.id
+        const blogId = req.params.id
 
-        let blog = await Blog.findById(blogId)
+        const userId = req.user.id
+
+        const blog = await Blog.findById(blogId)
 
         if (!blog) {
             return res.status(404).json({ message: "Blog Not Found" })

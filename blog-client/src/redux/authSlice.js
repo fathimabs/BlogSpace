@@ -9,9 +9,14 @@ const authSlice = createSlice({
         token: null
     },
     reducers: {
-        
+        updateAuth: (state, action) => {
+
+            state.user = action.payload.user
+            state.token = action.payload.token
+        }
     }
 
 })
 
-export default authSlice
+export const { updateAuth } = authSlice.actions
+export default authSlice.reducer

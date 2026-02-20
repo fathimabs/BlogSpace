@@ -3,39 +3,52 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const createUser = async (req, res) => {
+  const { username, email, password } = req.body;
 
-    const { username, email, password } = req.body
-    // console.log(req.body);
-
-    try {
-        let isUserEmail = await User.findOne({ email })
-
-        if (isUserEmail) {
-            return res.status(409).json({ message: "Email is already existed" })
-        }
-
-        let hashPass = await bcrypt.hash(password, 10)
-
-        let newUser = await new User({
-            username,
-            email,
-            password: hashPass
-        })
-        // console.log(newUser)
-        await newUser.save()
-
-        res.status(201).json({ message: "User Registration Successfull" })
-    } catch (error) {
-
-        res.status(500).json({ message: "Server Error" })
+  try {
+    const isUserEmail = await User.findOne({ email });
+    if (isUserEmail) {
+      return res.status(409).json({ message: "Email is already existed" });
     }
 
-}
+    const hashPass = await bcrypt.hash(password, 10);
+
+    const newUser = new User({
+      username,
+      email,
+      password: hashPass
+    });
+
+    await newUser.save();
+
+    //generate token
+    
+    const token = jwt.sign(
+      { id: newUser._id, email: newUser.email },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: '1h' }
+    );
+
+    // return user-info & token
+   
+    res.status(201).json({
+      message: "User Registration Successful",
+      userId: newUser._id,
+      username: newUser.username,
+      email: newUser.email,
+      token
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
 
 const getUsers = async (req, res) => {
 
     try {
-        let usersData = await User.find().select('-password')
+        const usersData = await User.find().select('-password')
         res.json(usersData)
 
     } catch (error) {
@@ -45,10 +58,10 @@ const getUsers = async (req, res) => {
 
 const profileUpdate = async (req, res) => {
 
-    let userId = req.user.id
-    // console.log(userId);
+    const userId = req.user.id
 
-    let { username, email } = req.body
+
+    const { username, email } = req.body
 
     if (req.body.password) {
 
@@ -60,12 +73,12 @@ const profileUpdate = async (req, res) => {
 
             return res.status(404).json({ message: "User Not Found" })
         }
-        let updateField = {}
+        const updateField = {}
 
         if (req.body.username) updateField.username = username
         if (req.body.email) updateField.email = email
 
-        let dataUpdate = await User.findByIdAndUpdate(userId, updateField, {
+        const dataUpdate = await User.findByIdAndUpdate(userId, updateField, {
             new: true,
             runValidators: true
         }).select('-password')
@@ -86,24 +99,24 @@ const profileUpdate = async (req, res) => {
 
 const login = async (req, res) => {
 
-    let { email, password } = req.body;
-    // console.log(req.body);
+    const { email, password } = req.body;
+
 
     try {
 
-        let userExist = await User.findOne({ email });
+        const userExist = await User.findOne({ email });
 
         if (!userExist) {
             return res.status(404).json({ message: "User not found" });
         }
 
-        let isMatch = await bcrypt.compare(password, userExist.password);
+        const isMatch = await bcrypt.compare(password, userExist.password);
 
         if (!isMatch) {
             return res.status(401).json({ message: "Invalid email or password" });
         }
 
-        let token = jwt.sign({
+        const token = jwt.sign({
             id: userExist.id,
             email: userExist.email
         },
