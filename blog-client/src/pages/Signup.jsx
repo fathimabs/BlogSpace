@@ -13,7 +13,8 @@ function Signup() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const navigate = useNavigate();
+
+  const navigate = useNavigate()
 
   const onSubmit = async (data) => {
 
@@ -38,7 +39,7 @@ function Signup() {
           toast.error(error.response.data.message || "Something went wrong ");
         }
       } else {
-        
+
         toast.error("Server not responding ");
       }
     }
@@ -120,6 +121,25 @@ function Signup() {
 
         <Button type="submit" className="w-full">
           Create Account
+        </Button>
+
+        <Button
+          onClick={async () => {
+            try {
+              const res = await api.post("/blog/add-blog", {
+                title: "Hi",
+                content: "Too short",
+                author: "123"
+              }, {
+                headers: { Authorization: `Bearer ${token}` }
+              });
+              console.log("Success:", res.data);
+            } catch (err) {
+              console.log("Validation Errors:", err.response?.data);
+            }
+          }}
+        >
+          Test Joi Validation
         </Button>
 
       </form>

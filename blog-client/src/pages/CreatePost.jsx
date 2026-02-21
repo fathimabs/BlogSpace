@@ -15,7 +15,7 @@ function CreatePost() {
   const dispatch = useDispatch();
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
-
+  
   const onSubmit = async (data) => {
 
     if (!user || !token) {
@@ -34,13 +34,12 @@ function CreatePost() {
         }
       );
 
-      // Redux state
 
       dispatch(addPosts(res.data));
 
       toast.success("Post Created successfully!");
 
-      reset(); // reset the form
+      reset(); 
 
     } catch (err) {
       console.log(err);
@@ -85,6 +84,7 @@ function CreatePost() {
         <Button type="submit" disabled={!user}>
           Publish
         </Button>
+        
       </form>
     </div>
   );

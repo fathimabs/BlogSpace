@@ -17,8 +17,7 @@ const postSlice = createSlice({
       state.posts.unshift(action.payload);
     },
     updatePosts: (state, action) => {
-      const index = state.posts.findIndex(
-        (post) => post._id === action.payload._id
+      const index = state.posts.findIndex((post) => post._id === action.payload._id
       );
       if (index !== -1) state.posts[index] = action.payload;
     },
