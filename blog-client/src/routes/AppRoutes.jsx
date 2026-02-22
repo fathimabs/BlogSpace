@@ -1,11 +1,12 @@
 import { Route, Routes } from "react-router-dom";
-import Login from "../pages/Login";
 import Home from "../pages/Home";
-import CreatePost from "../pages/CreatePost";
-import PageNotFound from "../pages/PageNotFound";
+import Login from "../pages/Login";
 import Signup from "../pages/Signup";
-import PostDetails from "../pages/PostDetails";
+import CreatePost from "../pages/CreatePost";
 import MyBlog from "../pages/MyBlog";
+import PostDetails from "../pages/PostDetails";
+import PageNotFound from "../pages/PageNotFound";
+
 
 function AppRoutes() {
     return (

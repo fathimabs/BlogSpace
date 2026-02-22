@@ -4,8 +4,7 @@ import { Link } from "react-router-dom";
 
 function PostCard({ post, showEdit = false }) {
 
-    const { user } = useSelector((state) => state.auth || {});
-
+    const { user } = useSelector((state) => state.auth);
 
     if (!post ) return null;
 

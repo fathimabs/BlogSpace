@@ -10,7 +10,7 @@ import { addPosts } from "../redux/postSlice";
 
 function CreatePost() {
 
-  const { user, token } = useSelector((state) => state.auth || {});
+  const { user, token } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
@@ -34,7 +34,6 @@ function CreatePost() {
         }
       );
 
-
       dispatch(addPosts(res.data));
 
       toast.success("Post Created successfully!");
@@ -54,8 +53,7 @@ function CreatePost() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
 
-          <Input
-            placeholder="Post Title"
+          <Input placeholder="Post Title"
             {...register("title", {
               required: "Title is required",
               minLength: { value: 5, message: "Minimum 5 characters" },
@@ -68,8 +66,7 @@ function CreatePost() {
 
         <div>
           
-          <TextArea
-            rows="6"
+          <TextArea rows="8"
             placeholder="Write your content..."
             {...register("content", {
               required: "Content is required",

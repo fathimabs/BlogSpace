@@ -5,9 +5,12 @@ import toast from "react-hot-toast";
 import PostList from "../components/ui/PostList";
 
 function MyBlog() {
+
     const navigate = useNavigate();
-    const { user } = useSelector((state) => state.auth || {});
-    const posts = useSelector((state) => state.posts?.posts || []);
+
+    const { user } = useSelector((state) => state.auth);
+
+    const posts = useSelector((state) => state.posts.posts);
 
    
     const myBlogs = user

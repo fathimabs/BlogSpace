@@ -13,14 +13,13 @@ function Signup() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-
   const navigate = useNavigate()
 
   const onSubmit = async (data) => {
 
     try {
 
-      const response = await api.post('/user/adduser', data)
+      await api.post('/user/adduser', data)
 
       toast.success("Account Created Successfully", { duration: 3000 })
 
@@ -51,10 +50,8 @@ function Signup() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
-        {/* Name */}
         <div>
-          <Input
-            placeholder="Name"
+          <Input placeholder="Name"
             {...register("username", {
               required: "Name is required",
               minLength: {
@@ -70,14 +67,12 @@ function Signup() {
           )}
         </div>
 
-        {/* Email */}
         <div>
-          <Input
-            placeholder="Email"
+          <Input placeholder="Email"
             {...register("email", {
               required: "Email is required",
               pattern: {
-                value: /^\S+@\S+$/i,
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                 message: "Invalid email format",
               },
             })}
@@ -89,10 +84,8 @@ function Signup() {
           )}
         </div>
 
-        {/* Password with Toggle */}
         <div className="relative">
-          <Input
-            type={showPassword ? "text" : "password"}
+          <Input type={showPassword ? "text" : "password"}
             placeholder="Password"
             {...register("password", {
               required: "Password is required",
@@ -100,15 +93,14 @@ function Signup() {
                 value: 6,
                 message: "Minimum 6 characters",
               },
+              pattern: {
+                value: /^(?=.*[A-Za-z])(?=.*\d).{6,}$/,
+                message: "Must contain at least one letter and one number",
+              },
             })}
           />
 
-          {/* Show / Hide Button */}
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-3 text-sm text-gray-500"
-          >
+          <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-3 text-sm text-gray-500">
             {showPassword ? "Hide" : "Show"}
           </button>
 
@@ -123,24 +115,6 @@ function Signup() {
           Create Account
         </Button>
 
-        <Button
-          onClick={async () => {
-            try {
-              const res = await api.post("/blog/add-blog", {
-                title: "Hi",
-                content: "Too short",
-                author: "123"
-              }, {
-                headers: { Authorization: `Bearer ${token}` }
-              });
-              console.log("Success:", res.data);
-            } catch (err) {
-              console.log("Validation Errors:", err.response?.data);
-            }
-          }}
-        >
-          Test Joi Validation
-        </Button>
 
       </form>
     </div>

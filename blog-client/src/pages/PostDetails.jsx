@@ -20,9 +20,9 @@ function PostDetails() {
 
   const dispatch = useDispatch();
 
-  const { user, token } = useSelector((state) => state.auth || {});
+  const { user, token } = useSelector((state) => state.auth);
 
-  const posts = useSelector((state) => state.posts?.posts || []);
+  const posts = useSelector((state) => state.posts?.posts);
 
   const postToEdit = posts.find((p) => p._id === id);
 

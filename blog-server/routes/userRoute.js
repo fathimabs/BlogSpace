@@ -10,7 +10,7 @@ const userRoute = express.Router()
 
 
 userRoute.post('/adduser', validate(createUserSchema), createUser)
-userRoute.get('/alluser', getUsers)
+userRoute.get('/alluser', tokenValidations, getUsers)
 userRoute.post('/login', validate(loginUserSchema), login)
 userRoute.put('/profile', tokenValidations, profileUpdate)
 

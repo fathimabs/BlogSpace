@@ -9,10 +9,9 @@ function Home() {
 
   const dispatch = useDispatch();
 
-  const posts = useSelector((state) => state.posts?.posts || []);
+  const posts = useSelector((state) => state.posts?.posts);
 
-  const { user } = useSelector((state) => state.auth || {});
-
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
 
@@ -60,9 +59,9 @@ function Home() {
         </h1>
 
         <p className="text-gray-600 max-w-xl mx-auto">
-          {user
-            ? "Ready to create something new today?"
-            : "A space to share stories, ideas and experiences."}
+
+          {user ? "Ready to create something new today?" : "A space to share stories, ideas and experiences."}
+          
         </p>
       </section>
 
